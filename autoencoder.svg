@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="360px" height="228px" viewBox="0 0 360 228" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" style="background: #FFFFFF;">
+    <!-- Generator: Sketch 3.8.2 (29753) - http://www.bohemiancoding.com/sketch -->
+    <title>Slice 1</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <polygon id="path-1" points="170.003906 52.6953295 170.003906 151.937651 0 203.632981 0 1"></polygon>
+        <mask id="mask-2" maskContentUnits="userSpaceOnUse" maskUnits="objectBoundingBox" x="0" y="0" width="170.003906" height="202.632981" fill="white">
+            <use xlink:href="#path-1"></use>
+        </mask>
+        <polygon id="path-3" points="359.003906 52.6953295 359.003906 151.937651 189 203.632981 189 1"></polygon>
+        <mask id="mask-4" maskContentUnits="userSpaceOnUse" maskUnits="objectBoundingBox" x="0" y="0" width="170.003906" height="202.632981" fill="white">
+            <use xlink:href="#path-3"></use>
+        </mask>
+    </defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <use id="Rectangle-1-Copy-3" stroke="#979797" mask="url(#mask-2)" stroke-width="2" xlink:href="#path-1"></use>
+        <text id="many-layers-of-" font-family="OpenSans, Open Sans" font-size="12" font-weight="normal" fill="#000000">
+            <tspan x="44.0458984" y="118">many layers of </tspan>
+            <tspan x="19.0439453" y="135">(convolutional) network</tspan>
+        </text>
+        <text id="encoder:-f" font-family="OpenSans, Open Sans" font-size="30" font-weight="normal" fill="#000000">
+            <tspan x="14.9531055" y="92">encoder: </tspan>
+            <tspan x="145.836895" y="92" font-family="CMUClassicalSerif-Italic, CMU Classical Serif" font-style="italic">f</tspan>
+        </text>
+        <use id="Rectangle-1-Copy-4" stroke="#979797" mask="url(#mask-4)" stroke-width="2" transform="translate(274.001953, 102.316490) scale(-1, 1) translate(-274.001953, -102.316490) " xlink:href="#path-3"></use>
+        <text id="many-layers-of-" font-family="OpenSans, Open Sans" font-size="12" font-weight="normal" fill="#000000">
+            <tspan x="233.045898" y="120">many layers of </tspan>
+            <tspan x="201.000977" y="137">(deconvolutional) network</tspan>
+        </text>
+        <text id="decoder:-g" font-family="OpenSans, Open Sans" font-size="30" font-weight="normal" fill="#000000">
+            <tspan x="201.172754" y="94">decoder: </tspan>
+            <tspan x="332.027246" y="94" font-family="CMUClassicalSerif-Italic, CMU Classical Serif" font-style="italic">g</tspan>
+        </text>
+        <text id="An-autoencoder.--How" font-family="OpenSans-Bold, Open Sans" font-size="14" font-weight="bold" fill="#000000">
+            <tspan x="0" y="224">An autoencoder. </tspan>
+            <tspan x="119.355469" y="224" font-family="OpenSans, Open Sans" font-weight="normal"> How do you generate new images?</tspan>
+        </text>
+    </g>
+</svg>
