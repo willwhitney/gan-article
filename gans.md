@@ -165,7 +165,7 @@ One of the most pervasive problems with GANs is that they can be unstable during
 
 This is one of the fastest-moving areas of computer science and I'm very excited to see what comes out in the next year. With the number of great people working on generative modeling today we may not have to wait long for solutions.
 
-
+If you want to play with training some GANs of your own, a great place to start is the DCGAN implementation in Torch by Soumith Chintala: https://github.com/soumith/dcgan.torch. The DCGAN architecture has proven relatively trainable and Soumith provides instructions for training your own models and links to several datasets.
 
 
 
