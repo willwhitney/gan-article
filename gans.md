@@ -1,10 +1,12 @@
-# An introduction to Generative Adversarial Nets
+<!-- <style type='text/css'>#write{max-width: 1040px;} h1 { font-size: 2.15rem; }</style> -->
+
+# An intuitive introduction to Generative Adversarial Nets
 
 Generative Adversarial Networks (GANs) have captured the imagination of the deep learning community in the past year, and they have come to dominate the world of generative image modeling to an impressive degree. While we still struggle to generate images that are really plausible, for the first time we can produce big, sharp pictures of hundreds of different objects without building a renderer by hand. 
 
 Here are a few examples from a GAN trained on 128x128 images from the ImageNet dataset[^improving-gans]:
 
-[![Imagenet generated samples](openai-imagenet.jpg)](https://openai.com/blog/generative-models/)
+<a href="https://openai.com/blog/generative-models/"><img src="openai-imagenet.jpg" style="display: block; margin: 0 auto;"/></a>
 
 Though none of these images quite manage to show real objects, their clarity and overall first-glance recognizability is absolutely stunning compared to similar results from not long ago.
 
@@ -36,7 +38,7 @@ So with a finite dataset, your model will always be spending a certain amount of
 
 ## Encouraging variety
 
-But there's an even worse caveat. The loss function we defined above trains your model to to _always_ produce images that are in the dataset, but does nothing to encourage it to produce _all_ the images in the dataset! Or, to put it another way, your model could have perfect _precision_, but terrible _recall_.
+But there's a worse caveat. The loss function we defined above trains your model to to _always_ produce images that are in the dataset, but does nothing to encourage it to produce _all_ the images in the dataset! Or, to put it another way, your model could have perfect _precision_, but terrible _recall_.
 
 In the simplest case, your model could learn to always produce _the same image_. That is, every time you sample from your model, it gives you back the same image of an elephant, exactly copied from the dataset. But! You're a machine learning expert! You know the solution to this problem. You want to encourage diversity in your samples, so you add a regularization term to your model which penalizes it for generating which are too close together.
 
@@ -56,7 +58,7 @@ In some sense this is the problem GANs address.
 
 A GAN consists of two components: a Generator and a discriminator (or Adversary). The generator is a function which maps random noise to images (or some other kind of data), and the discriminator is a function which maps images to a prediction of whether they're real (i.e. drawn from the dataset) or not.
 
-During training, you sample random noise, then put it through the generator to produce something (hopefully!) image-like. Then you take that image and put it through the discriminator. Since you know that was a fake image, you can tell the discriminator that it was a negative (fake) example. Then you backpropagate through the discriminator to make it more likely to classify that image as fake.
+During training, you sample random noise, then put it through the generator to produce something (hopefully!) image-like. Then you take that image and put it through the discriminator. Since you know that it was a fake image, you can tell the discriminator that it was a negative (fake) example. Then you backpropagate through the discriminator to make it more likely to classify that image as fake.
 
 At the end of backpropagation through the discriminator, you get gradients on the input to the discriminator which indicate which way you could perturb that input to make the discriminator more likely to classify it correctly. But now notice two facts:
 
@@ -79,33 +81,25 @@ There are a lot of differences between a GAN and something more traditional like
 
 ### Priors
 
-For one thing, the GAN is a generative model with a well-defined prior. 
-
-<!-- todo: cut down the autoencoder discussion -->
+For one thing, the GAN is a generative model with a well-defined prior.
 
 By contrast, imagine that you have only the generating half of an autoencoder and you want to generate an image similar to one in the training set. What input do you give that generator?
 
-<!-- <img src="autoencoder.png" style="width: 50%;"/> -->
-
-![](autoencoder.pdf)
+<img src="autoencoder.png" style="width: 50%; display: block; margin: 0 auto;"/>
 
 The autoencoder training objective is $g(f(x)) \approx x$, so the domain of $g$ is the range of $f$. Intuitively, the only inputs that $g$ will be trained to deal with are those that $f$ actually produces over your dataset.
 
 Naively, it could be that just about anything you give the decoder will produce a good image. One way to think about an autoencoder is that it compresses its input, and if it has optimally solved this task, any input in its domain should map to a valid output. That is to say, an optimal code has no unused bitstrings.
 
-In practice, though, there doesn't seem to be much pressure for the autoencoder to fill its input space. Instead, a typical encoder will have some much smaller range embedded in the space of all the codes it could produce. As a result, most inputs you feed into the decoder won't generate anything like a real image. And it's not so simple as picking inputs in some particular range, which would correspond to just taking a rectangular slice of the space. That decoder's true domain could be _crazy_.[^variational-autoencoder]
+In practice, though, there doesn't seem to be much pressure for the autoencoder to fill its input space. Instead, a typical encoder will have some much smaller range embedded in the space of all the codes it could produce. That means most random inputs you might feed into the decoder won't generate anything like a real image. And it's not so simple as picking inputs in some particular range, which would correspond to just taking a rectangular slice of the space. That decoder's true domain could be _crazy_.[^variational-autoencoder]
 
-Imagine you have a decoder that takes two real numbers $a$ and $b$ as inputs and generates images (or at least, image-shaped things). You might hope that if each input is between -1 and 1, like the blue square below, the decoder will produce a real image as its output. However, the decoder's real domain may be a crazy-looking manifold like the green curve, where only some combinations of $a$ and $b$ will produce good-looking images.
+<!-- Imagine you have a decoder that takes two real numbers $a$ and $b$ as inputs and generates images (or at least, image-shaped things). You might hope that if each input is between -1 and 1, like the blue square below, the decoder will produce a real image as its output. However, the decoder's real domain may be a crazy-looking manifold like the green curve, where only some combinations of $a$ and $b$ will produce good-looking images.-->
 
-<!-- <img src="decoder-domain.png" style="width: 50%;"/> -->
-
-![Domain of decoder versus a simple guess.](decoder-domain.pdf)
-
-
+<!--![Domain of decoder versus a simple guess.](decoder-domain.pdf)-->
 
 With a GAN, sampling is baked right in. If the random noise you're using to feed the GAN is, say, $\mathcal{N}(0,1)$, likely samples from that distribution should produce likely-looking images, and unlikely samples will make somewhat weirder images. Conveniently, that prior doesn't have any holes; if $a$ is a point in the domain of the GAN, and $a + b$ is also in the domain, then $a  + \frac{1}{2} b$ is too. That's what lets people make those sweet face-arithmetic equations like in the DCGAN paper[^dcgan]: 
 
-![](face_arithmetic.png)
+<img src="face-arithmetic.png" style="display: block; margin: 0 auto;"/>
 
 
 
@@ -113,11 +107,7 @@ With a GAN, sampling is baked right in. If the random noise you're using to feed
 
 Another powerful feature of the GAN is that the discriminator provides a _multimodal_ loss function. In other words, the discriminator loss function thinks there are very many good images, whereas an autoencoder's mean-squared error is asking how far the produced image is from one image in particular.
 
-
-
-![](loss-functions.pdf)
-
-
+<img src="loss-functions.png" style="width: 75%; max-width: 933px; display: block; margin: 0 auto;"/>
 
 This is a great property! Pixel-wise error is a terrible loss function and everyone knows it, but up until recently there haven't been a lot of alternatives. If the decoder of an autoencoder produces exactly the input image, but shifted left by one pixel, it may get a very large error. A GAN's discriminator, on the other hand, evaluates how "credible" it is that a given image appears in the dataset. That one-pixel-misaligned image will score very well.
 
@@ -137,11 +127,11 @@ All this means that if the discriminator figures out that $p_g(x)$ is nearly 1, 
 
 Earlier we thought about trying to explicitly encourage samples from a generator to be far from one another in pixel space, but realized that it would be computationally intractible. In a sense the discriminator's implicit estimation of $p_g(x)$ is doing the same thing in a more principled way; it encourages the generator to spread out the images it produces as much as possible in the discriminator's feature space.
 
-This is exactly what we were looking for! The discriminator loss function forces the generator to produce the _whole_ dataset, or as much of it as possible, instead of just requiring it to produce _only_ images from the dataset.
+This is exactly what we were looking for! The discriminator loss function forces the generator to produce the _whole_ dataset, or as much of it as possible, instead of just requiring it to produce _only_ images from the dataset.[^data-thirsty]
 
 Or at least, that's the theory. In practice GANs often experience a phenomenon known as "collapse", in which the generator will produce only a few really different-looking kinds of images. This is possible because the discriminator isn't perfect, and it can't recognize _all_ the images that the generator produces. 
 
-For example, if you train a GAN on pictures of a hundred different breeds of dogs, you might get a generator which only makes images of corgis, German shepherds, and golden retrievers. Especially if those breeds were the most common in the dataset, the discriminator may not be very confident that those examples are fake; it only has the power to "remember" a certain number of examples in its weights.
+For example, if you train a GAN on pictures of a hundred different breeds of dogs, you might get a generator which only makes images of corgis, German shepherds, and golden retrievers. Especially if those breeds were the most common in the dataset, the discriminator may not be very confident that those examples are fake; it only has the power to "remember" a certain number of examples in its weights. This seems to be especially common with conditional GANs representing complicated functions, like trying to predict what happens next in a video given the current frame.
 
 Preventing collapse and encouraging diverse images is an open problem. While there have been strong efforts in this direction (notably from OpenAI[^improving-gans]), nothing so far has been definitive.
 
@@ -163,25 +153,15 @@ The dynamics of this evolution would be _very_ interesting to study. I'm reminde
 
 
 
-<!-- todo: discuss conditioning, prediction -->
-
-
-
-<!-- todo: add caveats about amount of data required, extend thread-count metaphor -->
-
 ## Lots of questions left to answer
 
-GANs are now state of the art for image modeling, and I'm sure there are countless papers applying them to different domains under development right now. Even so, there are a few big questions that are still open.
+GANs are now state of the art for generative image modeling, and I'm sure there are countless papers applying them to different domains under development right now. Even so, there are a few big questions that are still open.
 
-
-
-<!-- todo: explain that I mean image-conditioned GANs like for prediction -->
-
-To me, the most pressing question is how to encourage the generator to produce diverse samples. Especially in conditional GANs, the tendency to collapse can be extremely strong. The discriminator would have to memorize a very large set of outputs to identify generated images, and in many settings it's difficult to produce diverse batches of correct samples to strengthen the discriminator.
+One pressing question is how to encourage the generator to produce diverse samples. Generative modeling is probably the hardest problem in machine learning because the data distribution can be very complex. There are an awful lot of possible images out there and it's hard to even evaluate what fraction of them the model is capturing.
 
 Another open area is applying GANs to discrete domains. In a continuous domain like images, the generator can make a pixel just _slightly_ more red or _slightly_ less green to make the image as a whole more credible to the discriminator. By contrast, it's not clear how to make a generator for sentences produce a phrase slightly closer to "my fluffy pet kitty" than "my fluffy pet shark". While work has been done on adversarially generating language _embeddings_ instead of directly generating words[^adversarial-language], the challenge of adversarial training for discrete domains is still unanswered.[^discrete-gan-note]
 
-<!-- todo: discuss oscillation -->
+One of the most pervasive problems with GANs is that they can be unstable during the training process. The generator might start out producing random patterns, then with training converge to quite good images, only to later start producing noise again. This can happen if the generator and discriminator start "chasing each other around" in the space of images. The generator starts producing reliably good images of one kind, then the discriminator learns that this generator is always producing that kind of image and starts rating them as unlikely, and as a result the generator learns to produce some other kind of image. I suspect this is related to the idea of collapse. A universal solution to GANs' instability would make them faster and easier to train, which would save a lot of headaches.
 
 This is one of the fastest-moving areas of computer science and I'm very excited to see what comes out in the next year. With the number of great people working on generative modeling today we may not have to wait long for solutions.
 
@@ -193,7 +173,7 @@ This is one of the fastest-moving areas of computer science and I'm very excited
 
 
 
-
+<!-- Thanks to Jordan Ash and Benjana Guraziu for reading drafts of this essay and providing helpful feedback. -->
 
 
 
@@ -208,3 +188,4 @@ This is one of the fastest-moving areas of computer science and I'm very excited
 [^learning-dynamics]: Saxe, Andrew M., James L. McClelland, and Surya Ganguli. "Exact solutions to the nonlinear dynamics of learning in deep linear neural networks." *arXiv preprint arXiv:1312.6120* (2013).
 [^adversarial-language]: Miyato, Takeru, Andrew M. Dai, and Ian Goodfellow. "Virtual Adversarial Training for Semi-Supervised Text Classification." *arXiv preprint arXiv:1605.07725* (2016).
 [^discrete-gan-note]: While it's possible that GANs may never be completely adapted to discrete domains, it certainly feels like it should be possible to have the generator and discriminator operate in  probability space.
+[^data-thirsty]: Of course, GANs take a _lot_ of data to model a complicated distribution. The CelebA dataset is a standard relatively simple benchmark for generative image modeling, and it consists of over 200,000 images of celebrities' faces. Another easy task for GANs is the bedroom dataset from LSUN, which is about 300,000 images of bedrooms. For a harder problem, like generating arbitrary images, even the million-image ImageNet dataset is really too small. This problem also gets worse the larger the image you want to generate. Learning to paint in all the details of a 256x256 image is dramatically harder than learning to generate that same image at 32x32, and requires proportionally more data.
